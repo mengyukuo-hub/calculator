@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>工程計算機</title>
+  <title>計算機</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -21,7 +21,7 @@
       border-radius: 20px;
       padding: 20px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-      width: 480px;
+      width: 320px;
     }
 
     .display {
@@ -47,47 +47,24 @@
 
     .result {
       color: #e6edf3;
-      font-size: 32px;
+      font-size: 36px;
       font-weight: 300;
       word-break: break-all;
       text-align: right;
     }
 
-    .mode-bar {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .mode-btn {
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid #30363d;
-      background: transparent;
-      color: #8b949e;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .mode-btn.active {
-      background: #238636;
-      border-color: #238636;
-      color: #fff;
-    }
-
     .buttons {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 8px;
     }
 
     button {
       border: none;
       border-radius: 10px;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 500;
-      padding: 14px 4px;
+      padding: 18px 4px;
       cursor: pointer;
       transition: transform 0.1s, filter 0.1s;
     }
@@ -97,11 +74,9 @@
 
     .btn-number  { background: #21262d; color: #e6edf3; }
     .btn-op      { background: #da3633; color: #fff; }
-    .btn-fn      { background: #1f6feb; color: #fff; font-size: 12px; }
-    .btn-util    { background: #388bfd22; color: #79c0ff; border: 1px solid #30363d; font-size: 13px; }
-    .btn-equal   { background: #da3633; color: #fff; grid-column: span 2; }
-    .btn-zero    { grid-column: span 2; text-align: left; padding-left: 20px; }
+    .btn-util    { background: #388bfd22; color: #79c0ff; border: 1px solid #30363d; }
     .btn-clear   { background: #6e40c9; color: #fff; }
+    .btn-zero    { grid-column: span 2; text-align: left; padding-left: 24px; }
   </style>
 </head>
 <body>
@@ -111,72 +86,37 @@
     <div class="result" id="result">0</div>
   </div>
 
-  <div class="mode-bar">
-    <button class="mode-btn active" id="btn-deg" onclick="setMode('deg')">DEG</button>
-    <button class="mode-btn" id="btn-rad" onclick="setMode('rad')">RAD</button>
-  </div>
-
   <div class="buttons">
-    <!-- Row 1: functions -->
-    <button class="btn-fn" onclick="applyFn('sin')">sin</button>
-    <button class="btn-fn" onclick="applyFn('cos')">cos</button>
-    <button class="btn-fn" onclick="applyFn('tan')">tan</button>
-    <button class="btn-fn" onclick="applyFn('log')">log</button>
-    <button class="btn-fn" onclick="applyFn('ln')">ln</button>
-
-    <!-- Row 2: inverse / advanced -->
-    <button class="btn-fn" onclick="applyFn('asin')">sin⁻¹</button>
-    <button class="btn-fn" onclick="applyFn('acos')">cos⁻¹</button>
-    <button class="btn-fn" onclick="applyFn('atan')">tan⁻¹</button>
-    <button class="btn-fn" onclick="applyFn('sqrt')">√</button>
-    <button class="btn-fn" onclick="applyFn('cbrt')">∛</button>
-
-    <!-- Row 3: power / const -->
-    <button class="btn-util" onclick="applyFn('sq')">x²</button>
-    <button class="btn-util" onclick="startPow()">xʸ</button>
-    <button class="btn-util" onclick="applyFn('inv')">1/x</button>
-    <button class="btn-util" onclick="applyFn('fact')">n!</button>
-    <button class="btn-util" onclick="applyFn('abs')">|x|</button>
-
-    <!-- Row 4: constants / memory -->
-    <button class="btn-util" onclick="insertConst('PI')">π</button>
-    <button class="btn-util" onclick="insertConst('E')">e</button>
-    <button class="btn-util" onclick="applyFn('exp10')">10ˣ</button>
-    <button class="btn-util" onclick="applyFn('exp')">eˣ</button>
-    <button class="btn-clear" onclick="backspace()">⌫</button>
-
-    <!-- Row 5: clear / sign / % / ÷ -->
+    <!-- Row 1 -->
     <button class="btn-clear" onclick="clearAll()">AC</button>
-    <button class="btn-util" onclick="toggleSign()">+/−</button>
+    <button class="btn-clear" onclick="backspace()">⌫</button>
     <button class="btn-util" onclick="percent()">%</button>
     <button class="btn-op" onclick="setOperator('/')">÷</button>
-    <button class="btn-op" onclick="setOperator('**')">^</button>
 
-    <!-- Row 6 -->
+    <!-- Row 2 -->
     <button class="btn-number" onclick="appendNumber('7')">7</button>
     <button class="btn-number" onclick="appendNumber('8')">8</button>
     <button class="btn-number" onclick="appendNumber('9')">9</button>
     <button class="btn-op" onclick="setOperator('*')">×</button>
-    <button class="btn-op" onclick="setOperator('-')">−</button>
 
-    <!-- Row 7 -->
+    <!-- Row 3 -->
     <button class="btn-number" onclick="appendNumber('4')">4</button>
     <button class="btn-number" onclick="appendNumber('5')">5</button>
     <button class="btn-number" onclick="appendNumber('6')">6</button>
-    <button class="btn-op" onclick="setOperator('+')">+</button>
-    <button class="btn-op" style="grid-row: span 2;" onclick="calculate()">=</button>
+    <button class="btn-op" onclick="setOperator('-')">−</button>
 
-    <!-- Row 8 -->
+    <!-- Row 4 -->
     <button class="btn-number" onclick="appendNumber('1')">1</button>
     <button class="btn-number" onclick="appendNumber('2')">2</button>
     <button class="btn-number" onclick="appendNumber('3')">3</button>
-    <button class="btn-util" onclick="appendNumber('(')">(</button>
+    <button class="btn-op" style="grid-row: span 2;" onclick="setOperator('+')">+</button>
 
-    <!-- Row 9 -->
+    <!-- Row 5 -->
     <button class="btn-number btn-zero" onclick="appendNumber('0')">0</button>
     <button class="btn-number" onclick="appendDot()">.</button>
-    <button class="btn-util" onclick="appendNumber(')')">)</button>
 
+    <!-- Row 6: = spans full width -->
+    <button class="btn-op" style="grid-column: span 4;" onclick="calculate()">=</button>
   </div>
 </div>
 
@@ -185,21 +125,11 @@
   let previous = '';
   let operator = null;
   let shouldReset = false;
-  let mode = 'deg'; // 'deg' or 'rad'
 
   const resultEl = document.getElementById('result');
   const exprEl = document.getElementById('expression');
 
-  const opSymbols = { '+': '+', '-': '−', '*': '×', '/': '÷', '**': '^' };
-
-  function toRad(x) { return mode === 'deg' ? x * Math.PI / 180 : x; }
-  function fromRad(x) { return mode === 'deg' ? x * 180 / Math.PI : x; }
-
-  function setMode(m) {
-    mode = m;
-    document.getElementById('btn-deg').classList.toggle('active', m === 'deg');
-    document.getElementById('btn-rad').classList.toggle('active', m === 'rad');
-  }
+  const opSymbols = { '+': '+', '-': '−', '*': '×', '/': '÷' };
 
   function updateDisplay() {
     resultEl.textContent = current;
@@ -207,15 +137,13 @@
 
   function appendNumber(n) {
     if (shouldReset) { current = n; shouldReset = false; }
-    else current = current === '0' && n !== '.' && n !== '(' && n !== ')' ? n : current + n;
+    else current = current === '0' ? n : current + n;
     updateDisplay();
   }
 
   function appendDot() {
-    const parts = current.split(/[\+\-\*\/\^]/);
-    const last = parts[parts.length - 1];
     if (shouldReset) { current = '0.'; shouldReset = false; }
-    else if (!last.includes('.')) current += '.';
+    else if (!current.includes('.')) current += '.';
     updateDisplay();
   }
 
@@ -233,8 +161,6 @@
     exprEl.textContent = `${previous} ${opSymbols[op]}`;
   }
 
-  function startPow() { setOperator('**'); }
-
   function calculate(chain = false) {
     if (!operator || shouldReset) return;
     const a = parseFloat(previous);
@@ -246,7 +172,6 @@
       case '-': r = a - b; break;
       case '*': r = a * b; break;
       case '/': r = b !== 0 ? a / b : 'Error'; break;
-      case '**': r = Math.pow(a, b); break;
     }
     current = r === 'Error' ? 'Error' : fmt(r);
     operator = null;
@@ -256,56 +181,12 @@
 
   function fmt(n) {
     if (!isFinite(n)) return 'Error';
-    const s = parseFloat(n.toPrecision(12));
-    return String(s);
-  }
-
-  function applyFn(fn) {
-    const x = parseFloat(current);
-    let r;
-    switch (fn) {
-      case 'sin':  r = Math.sin(toRad(x)); break;
-      case 'cos':  r = Math.cos(toRad(x)); break;
-      case 'tan':  r = Math.tan(toRad(x)); break;
-      case 'asin': r = fromRad(Math.asin(x)); break;
-      case 'acos': r = fromRad(Math.acos(x)); break;
-      case 'atan': r = fromRad(Math.atan(x)); break;
-      case 'log':  r = Math.log10(x); break;
-      case 'ln':   r = Math.log(x); break;
-      case 'sqrt': r = Math.sqrt(x); break;
-      case 'cbrt': r = Math.cbrt(x); break;
-      case 'sq':   r = x * x; break;
-      case 'inv':  r = 1 / x; break;
-      case 'abs':  r = Math.abs(x); break;
-      case 'exp':  r = Math.exp(x); break;
-      case 'exp10':r = Math.pow(10, x); break;
-      case 'fact':
-        if (x < 0 || !Number.isInteger(x) || x > 170) { r = NaN; break; }
-        r = 1; for (let i = 2; i <= x; i++) r *= i;
-        break;
-    }
-    exprEl.textContent = `${fn}(${current}) =`;
-    current = isNaN(r) || !isFinite(r) ? 'Error' : fmt(r);
-    shouldReset = true;
-    updateDisplay();
-  }
-
-  function insertConst(c) {
-    const val = c === 'PI' ? String(Math.PI) : String(Math.E);
-    if (shouldReset) { current = val; shouldReset = false; }
-    else current = current === '0' ? val : current + val;
-    updateDisplay();
+    return String(parseFloat(n.toPrecision(12)));
   }
 
   function clearAll() {
     current = '0'; previous = ''; operator = null; shouldReset = false;
     exprEl.textContent = '';
-    updateDisplay();
-  }
-
-  function toggleSign() {
-    if (current !== '0' && current !== 'Error')
-      current = fmt(parseFloat(current) * -1);
     updateDisplay();
   }
 
@@ -322,11 +203,9 @@
     else if (e.key === '-') setOperator('-');
     else if (e.key === '*') setOperator('*');
     else if (e.key === '/') { e.preventDefault(); setOperator('/'); }
-    else if (e.key === '^') setOperator('**');
     else if (e.key === 'Enter' || e.key === '=') calculate();
     else if (e.key === 'Escape') clearAll();
     else if (e.key === 'Backspace') backspace();
-    else if (e.key === '(' || e.key === ')') appendNumber(e.key);
   });
 </script>
 </body>
